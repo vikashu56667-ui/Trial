@@ -3,28 +3,7 @@ import { getDb } from '@/lib/db';
 
 export const runtime = 'edge';
 
-export async function POST(request: NextRequest) {
-    // --- SECURITY CHECK START ---
-    const { verifyTurnstileToken, isAllowedDomain } = await import('@/lib/security');
-
-    if (!isAllowedDomain(request)) {
-        console.error("Domain Check Failed:", request.headers.get('referer'), request.headers.get('origin'));
-        return NextResponse.json({ error: "Access Denied: Domain not allowed" }, { status: 403 });
-    }
-
-    const token = request.headers.get('cf-turnstile-response');
-    if (!token) {
-        return NextResponse.json({ error: "Access Denied: Missing CAPTCHA token" }, { status: 403 });
-    }
-
-    const ip = request.headers.get('cf-connecting-ip') || request.headers.get('x-forwarded-for');
-    const isValidToken = await verifyTurnstileToken(token, ip || undefined);
-
-    if (!isValidToken) {
-        console.error("Token Verification Failed for IP:", ip);
-        return NextResponse.json({ error: "Access Denied: Invalid CAPTCHA token" }, { status: 403 });
-    }
-    // --- SECURITY CHECK END ---
+export async function POST(request: NextRequest)
 
     try {
         const { value, type } = await request.json();
