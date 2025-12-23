@@ -1,6 +1,6 @@
 import { NextRequest } from 'next/server';
 
-const TURNSTILE_SECRET_KEY = process.env.TURNSTILE_SECRET_KEY || "0x4AAAAAACFVoXnrI9QWcxB69M-mpWMddtQ"; // User provided secret
+const TURNSTILE_SECRET_KEY = process.env.TURNSTILE_SECRET_KEY || "0x4AAAAAACIPKst1MTUE9yp_YqSZouaWTMM"; // User provided secret
 
 export async function verifyTurnstileToken(token: string, ip?: string): Promise<boolean> {
     if (!token) return false;
