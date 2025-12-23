@@ -2,7 +2,26 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getDb } from '@/lib/db';
 
 export const runtime = 'edge';
+import { NextResponse } from "next/server";
+import { getDb } from "../../../lib/db"; // adjust import path if needed
 
+export async function POST(request: Request) {
+  try {
+    const body = await request.json();
+    const { value, type } = body;
+
+    if (!value || !type) {
+      return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
+    }
+
+    const pool = getDb();
+    // ... your DB logic here ...
+
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    console.error("Hide Data Error:", error);
+    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
+  }
 export async function POST(request: NextRequest)
 
     try {
